@@ -16,6 +16,15 @@ export default function VehicleSearch() {
   const [brand, setBrand] = useState("");
   const [price, setPrice] = useState([0, 100000]);
 
+  const handleSearch = () => {
+    console.log({
+      vehicleType,
+      category,
+      brand,
+      price,
+    });
+  };
+
   return (
     <div className="bg-gray-100 py-8">
       <div className="container mx-auto px-4">
@@ -80,7 +89,9 @@ export default function VehicleSearch() {
             </div>
           </div>
         </div>
-        <Button className="mt-4">Buscar</Button>
+        <Button className="mt-4" onClick={handleSearch}>
+          Buscar
+        </Button>
       </div>
     </div>
   );

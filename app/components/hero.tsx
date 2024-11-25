@@ -31,7 +31,7 @@ export default function Hero() {
 
     const slideInterval = setInterval(nextSlide, autoSlideInterval);
     return () => clearInterval(slideInterval);
-  }, [autoSlide, autoSlideInterval]);
+  });
 
   return (
     <div className="relative w-full max-w-4xl mx-auto overflow-hidden">

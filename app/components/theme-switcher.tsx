@@ -12,7 +12,6 @@ const modes: ColorSchemePreference[] = ["system", "dark", "light"];
 export const NoFOUCScript = (storageKey: string) => {
   const [SYSTEM, DARK, LIGHT] = ["system", "dark", "light"];
 
-  /** Modify transition globally to avoid patched transitions */
   const modifyTransition = () => {
     const css = document.createElement("style");
     css.textContent = "*,*:after,*:before{transition:none !important;}";
@@ -26,7 +25,6 @@ export const NoFOUCScript = (storageKey: string) => {
 
   const media = matchMedia(`(prefers-color-scheme: ${DARK})`);
 
-  /** Function to add/remove dark class */
   window.updateDOM = () => {
     const restoreTransitions = modifyTransition();
     const mode = localStorage.getItem(storageKey) ?? SYSTEM;
@@ -58,7 +56,9 @@ const Switch = () => {
     updateDOM = window.updateDOM; // Store the global function
     /** Sync the tabs */
     addEventListener("storage", (e: StorageEvent): void => {
-      e.key === STORAGE_KEY && setMode(e.newValue as ColorSchemePreference);
+      if (e.key === STORAGE_KEY) {
+        setMode(e.newValue as ColorSchemePreference);
+      }
     });
   }, []);
 
@@ -67,7 +67,6 @@ const Switch = () => {
     updateDOM();
   }, [mode]);
 
-  /** Toggle mode */
   const handleModeSwitch = () => {
     const index = modes.indexOf(mode);
     setMode(modes[(index + 1) % modes.length]);
@@ -89,6 +88,8 @@ const Script = memo(() => (
     }}
   />
 ));
+
+Script.displayName = "NoFOUCScriptComponent";
 
 /** Component which applies classes and transitions. */
 export const ThemeSwitcher = () => {
