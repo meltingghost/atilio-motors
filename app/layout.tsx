@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "@/app/components/footer";
-import { ThemeSwitcher } from "@/app/components/theme-switcher";
+import ThemeSwitcher from "@/app/components/theme-switcher";
 import MessagesRequest from "@/app/components/messages-request";
 
 import "./globals.css";
