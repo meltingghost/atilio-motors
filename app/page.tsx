@@ -3,7 +3,6 @@ import Hero from "@/app/components/hero";
 import VehicleSearch from "@/app/components/vehicle-search";
 import BrandCarousel from "@/app/components/brand-carousel";
 import InfoSections from "@/app/components/info-sections";
-import Footer from "@/app/components/footer";
 
 export default function Home() {
   return (
@@ -15,7 +14,6 @@ export default function Home() {
         <BrandCarousel />
         <InfoSections />
       </main>
-      <Footer />
     </div>
   );
 }

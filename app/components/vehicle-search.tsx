@@ -3,74 +3,109 @@
 import { useState } from "react";
 import {
   Select,
-  SelectValue,
-  SelectItem,
   SelectContent,
-} from "@/app/components/select";
-import { Slider } from "@/app/components/slider";
-import { Button } from "@/app/components/button";
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Car, Truck, Bike } from "lucide-react";
 
 export default function VehicleSearch() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [vehicleType, setVehicleType] = useState("nuevos");
   const [category, setCategory] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [brand, setBrand] = useState("");
   const [price, setPrice] = useState([0, 100000]);
 
-  const handleSearch = () => {
-    console.log({
-      vehicleType,
-      category,
-      brand,
-      price,
-    });
+  const categories = {
+    carros: [
+      { value: "automoviles", label: "Automóviles", icon: Car },
+      { value: "camionetas", label: "Camionetas", icon: Truck },
+      { value: "camionetasBatea", label: "Camionetas con batea", icon: Truck },
+      { value: "camiones", label: "Camiones / Buses", icon: Truck },
+      { value: "hibridos", label: "Híbridos y Eléctricos", icon: Car },
+    ],
+    motos: [
+      { value: "todos", label: "Todos", icon: Bike },
+      { value: "4ruedas", label: "4 Ruedas", icon: Bike },
+      { value: "3ruedas", label: "3 Ruedas", icon: Bike },
+      { value: "2ruedas", label: "2 Ruedas", icon: Bike },
+    ],
   };
 
   return (
     <div className="bg-gray-100 py-8">
       <div className="container mx-auto px-4">
         <h2 className="text-2xl font-bold mb-4">Buscar Vehículos</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Select onValueChange={(value) => setVehicleType(value)}>
-            <SelectValue placeholder="Tipo de vehículo" />
-            <SelectContent>
-              <SelectItem value="nuevos">Carros Nuevos</SelectItem>
-              <SelectItem value="usados">Carros Usados</SelectItem>
-              <SelectItem value="motos">Motos</SelectItem>
-            </SelectContent>
-          </Select>
-
-          <Select onValueChange={(value) => setCategory(value)}>
-            <SelectValue placeholder="Categoría" />
-            <SelectContent>
-              {vehicleType === "motos" ? (
-                <>
-                  <SelectItem value="todos">Todos</SelectItem>
-                  <SelectItem value="4ruedas">4 Ruedas</SelectItem>
-                  <SelectItem value="3ruedas">3 Ruedas</SelectItem>
-                  <SelectItem value="2ruedas">2 Ruedas</SelectItem>
-                </>
-              ) : (
-                <>
-                  <SelectItem value="automoviles">Automóviles</SelectItem>
-                  <SelectItem value="camionetas">Camionetas</SelectItem>
-                  <SelectItem value="camionetasBatea">
-                    Camionetas con batea
-                  </SelectItem>
-                  <SelectItem value="camiones">Camiones / Buses</SelectItem>
-                  <SelectItem value="hibridos">
-                    Híbridos y Eléctricos
-                  </SelectItem>
-                </>
-              )}
-            </SelectContent>
-          </Select>
-
+        <Tabs
+          defaultValue="nuevos"
+          onValueChange={(value) => setVehicleType(value)}
+        >
+          <TabsList className="grid w-full grid-cols-3 mb-4">
+            <TabsTrigger value="nuevos">Carros Nuevos</TabsTrigger>
+            <TabsTrigger value="usados">Carros Usados</TabsTrigger>
+            <TabsTrigger value="motos">Motos</TabsTrigger>
+          </TabsList>
+          <TabsContent value="nuevos">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 mb-4">
+              {categories.carros.map((cat) => (
+                <Button
+                  key={cat.value}
+                  variant={category === cat.value ? "default" : "outline"}
+                  className="flex flex-col items-center justify-center h-24"
+                  onClick={() => setCategory(cat.value)}
+                >
+                  <cat.icon className="w-8 h-8 mb-2" />
+                  <span className="text-xs text-center">{cat.label}</span>
+                </Button>
+              ))}
+            </div>
+          </TabsContent>
+          <TabsContent value="usados">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 mb-4">
+              {categories.carros.map((cat) => (
+                <Button
+                  key={cat.value}
+                  variant={category === cat.value ? "default" : "outline"}
+                  className="flex flex-col items-center justify-center h-24"
+                  onClick={() => setCategory(cat.value)}
+                >
+                  <cat.icon className="w-8 h-8 mb-2" />
+                  <span className="text-xs text-center">{cat.label}</span>
+                </Button>
+              ))}
+            </div>
+          </TabsContent>
+          <TabsContent value="motos">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+              {categories.motos.map((cat) => (
+                <Button
+                  key={cat.value}
+                  variant={category === cat.value ? "default" : "outline"}
+                  className="flex flex-col items-center justify-center h-24"
+                  onClick={() => setCategory(cat.value)}
+                >
+                  <cat.icon className="w-8 h-8 mb-2" />
+                  <span className="text-xs text-center">{cat.label}</span>
+                </Button>
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <Select onValueChange={(value) => setBrand(value)}>
-            <SelectValue placeholder="Marca" />
+            <SelectTrigger>
+              <SelectValue placeholder="Marca" />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="toyota">Toyota</SelectItem>
               <SelectItem value="honda">Honda</SelectItem>
               <SelectItem value="ford">Ford</SelectItem>
+              {/* Agregar más marcas según sea necesario */}
             </SelectContent>
           </Select>
 
@@ -89,9 +124,7 @@ export default function VehicleSearch() {
             </div>
           </div>
         </div>
-        <Button className="mt-4" onClick={handleSearch}>
-          Buscar
-        </Button>
+        <Button className="w-full md:w-auto">Buscar</Button>
       </div>
     </div>
   );

@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Car, Bike, Wrench, FileText, LogIn } from "lucide-react";
 
 export default function Navbar() {
   return (
@@ -11,25 +13,39 @@ export default function Navbar() {
             </Link>
           </div>
           <div className="hidden md:flex space-x-4">
-            <Link href="/carros" className="text-gray-600 hover:text-gray-800">
-              Carros
+            <Link
+              href="/carros"
+              className="flex items-center space-x-1 text-gray-600 hover:text-gray-800"
+            >
+              <Car className="w-4 h-4" />
+              <span>Carros</span>
             </Link>
-            <Link href="/motos" className="text-gray-600 hover:text-gray-800">
-              Motos
+            <Link
+              href="/motos"
+              className="flex items-center space-x-1 text-gray-600 hover:text-gray-800"
+            >
+              <Bike className="w-4 h-4" />
+              <span>Motos</span>
             </Link>
             <Link
               href="/accesorios"
-              className="text-gray-600 hover:text-gray-800"
+              className="flex items-center space-x-1 text-gray-600 hover:text-gray-800"
             >
-              Accesorios
+              <Wrench className="w-4 h-4" />
+              <span>Accesorios</span>
             </Link>
-            <Link href="/planes" className="text-gray-600 hover:text-gray-800">
-              Planes
+            <Link
+              href="/planes"
+              className="flex items-center space-x-1 text-gray-600 hover:text-gray-800"
+            >
+              <FileText className="w-4 h-4" />
+              <span>Planes</span>
             </Link>
           </div>
-          <button className="px-6 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition">
-            Ingresar
-          </button>
+          <Button variant="outline" className="flex items-center space-x-1">
+            <LogIn className="w-4 h-4" />
+            <span>Ingresar</span>
+          </Button>
         </div>
       </div>
     </nav>
