@@ -10,16 +10,16 @@ import {
 import Image from "next/image";
 
 const brands = [
-  { name: "Toyota", src: "/images/toyota.png" },
-  { name: "Honda", src: "/images/honda.png" },
-  { name: "Ford", src: "/images/ford.png" },
-  { name: "Chevrolet", src: "/images/chevrolet.png" },
-  { name: "Nissan", src: "/images/nissan.png" },
-  { name: "Volkswagen", src: "/images/volkswagen.png" },
-  { name: "BMW", src: "/images/bmw.png" },
-  { name: "Mercedes-Benz", src: "/images/mercedes.jpg" },
-  { name: "Audi", src: "/images/audi.png" },
-  { name: "Hyundai", src: "/images/hyundai.png" },
+  { name: "Toyota", src: "/images/logos/toyota.png" },
+  { name: "Honda", src: "/images/logos/honda.png" },
+  { name: "Ford", src: "/images/logos/ford.png" },
+  { name: "Chevrolet", src: "/images/logos/chevrolet.png" },
+  { name: "Nissan", src: "/images/logos/nissan.png" },
+  { name: "Volkswagen", src: "/images/logos/volkswagen.png" },
+  { name: "BMW", src: "/images/logos/bmw.png" },
+  { name: "Mercedes-Benz", src: "/images/logos/mercedes.jpg" },
+  { name: "Audi", src: "/images/logos/audi.png" },
+  { name: "Hyundai", src: "/images/logos/hyundai.png" },
 ];
 
 export default function BrandCarousel() {
