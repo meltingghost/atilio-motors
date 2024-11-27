@@ -1,73 +1,50 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import styles from "./switch.module.css";
-
-type ColorSchemePreference = "system" | "dark" | "light";
-
-const STORAGE_KEY = "nextjs-blog-starter-theme";
-
-const modes: ColorSchemePreference[] = ["system", "dark", "light"];
+import React, { useState, useEffect } from "react";
+import { Sun, Moon, Monitor } from "lucide-react"; // Ejemplo de íconos para temas
+import { Button } from "@/components/ui/button";
 
 export default function ThemeSwitcher() {
-  const [mode, setMode] = useState<ColorSchemePreference>(() => {
-    if (typeof localStorage !== "undefined") {
-      const storedMode = localStorage.getItem(
-        STORAGE_KEY
-      ) as ColorSchemePreference | null;
-      return storedMode || "system";
-    }
-    return "system";
-  });
+  const [theme, setTheme] = useState<"light" | "dark" | "system">("system");
 
   useEffect(() => {
-    const root = document.documentElement;
+    const savedTheme = localStorage.getItem("theme") as
+      | "light"
+      | "dark"
+      | "system"
+      | null;
+    if (savedTheme) {
+      setTheme(savedTheme);
+      applyTheme(savedTheme);
+    } else {
+      setTheme("system");
+    }
+  }, []);
 
-    const applyTheme = (mode: ColorSchemePreference) => {
-      const systemPrefersDark = window.matchMedia(
+  function applyTheme(selectedTheme: "light" | "dark" | "system") {
+    const root = document.documentElement;
+    if (selectedTheme === "system") {
+      const prefersDark = window.matchMedia(
         "(prefers-color-scheme: dark)"
       ).matches;
+      root.classList.toggle("dark", prefersDark);
+    } else {
+      root.classList.toggle("dark", selectedTheme === "dark");
+    }
+  }
 
-      const resolvedTheme =
-        mode === "system" ? (systemPrefersDark ? "dark" : "light") : mode;
-
-      root.classList.toggle("dark", resolvedTheme === "dark");
-      root.classList.toggle("light", resolvedTheme === "light");
-      root.setAttribute("data-mode", mode);
-    };
-
-    applyTheme(mode);
-
-    localStorage.setItem(STORAGE_KEY, mode);
-
-    /** Listener to update theme across tabs */
-    const syncTheme = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY) {
-        setMode(e.newValue as ColorSchemePreference);
-      }
-    };
-
-    window.addEventListener("storage", syncTheme);
-
-    return () => {
-      window.removeEventListener("storage", syncTheme);
-    };
-  }, [mode]);
-
-  const handleModeSwitch = () => {
-    const currentIndex = modes.indexOf(mode);
-    setMode(modes[(currentIndex + 1) % modes.length]);
-  };
+  function toggleTheme() {
+    const nextTheme = theme === "light" ? "dark" : "light";
+    setTheme(nextTheme);
+    localStorage.setItem("theme", nextTheme);
+    applyTheme(nextTheme);
+  }
 
   return (
-    <button
-      className={styles.switch}
-      onClick={handleModeSwitch}
-      aria-label={`Switch to ${
-        modes[(modes.indexOf(mode) + 1) % modes.length]
-      } mode`}
-    >
-      {mode}
-    </button>
+    <Button variant="outline" onClick={toggleTheme}>
+      {theme === "light" && <Sun className="w-4 h-4" />}
+      {theme === "dark" && <Moon className="w-4 h-4" />}
+      {theme === "system" && <Monitor className="w-4 h-4" />}
+    </Button>
   );
 }
