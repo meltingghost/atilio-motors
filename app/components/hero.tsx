@@ -11,9 +11,9 @@ import Image from "next/image";
 
 export default function Hero() {
   const images = [
-    { src: "/images/hero-1.jpg" },
-    { src: "/images/hero-2.jpg" },
-    { src: "/images/hero-3.jpg" },
+    { src: "/images/hero/hero-1.jpg" },
+    { src: "/images/hero/hero-2.jpg" },
+    { src: "/images/hero/hero-3.jpg" },
   ];
 
   return (

@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+
 export default function InfoSections() {
   return (
     <div className="bg-gray-100 py-8">
@@ -26,12 +29,13 @@ export default function InfoSections() {
 
         <section>
           <h2 className="text-2xl font-bold mb-4">Planes de Financiamiento</h2>
-          <p className="text-gray-600">
+          <p className="text-gray-600 mb-4">
             Ofrecemos una variedad de planes de financiamiento para que puedas
-            adquirir el vehículo de tus sueños. Nuestros asesores financieros
-            están disponibles para ayudarte a encontrar la mejor opción que se
-            adapte a tus necesidades y presupuesto.
+            adquirir el vehículo de tus sueños.
           </p>
+          <Link href="/planes" passHref>
+            <Button>Saber más</Button>
+          </Link>
         </section>
       </div>
     </div>
