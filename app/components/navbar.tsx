@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Car, Bike, Wrench, FileText, LogIn } from "lucide-react";
 import { z } from "zod";
@@ -12,34 +13,57 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   email: z
     .string()
     .email("Ingresa un correo válido")
     .nonempty("El correo es obligatorio"),
+  password: z
+    .string()
+    .min(8, "La contraseña debe tener al menos 8 caracteres")
+    .nonempty("La contraseña es obligatoria"),
+  role: z.enum(["cliente", "empleado"]),
 });
 
 export default function Navbar() {
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef<HTMLDivElement>(null);
-
-  function togglePopup() {
-    setShowPopup(!showPopup);
-  }
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
+      password: "",
+      role: "cliente",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    // Aquí iría la lógica de autenticación real
+    if (values.role === "cliente") {
+      router.push("/cliente/inicio");
+    } else {
+      router.push("/empleado/panel");
+    }
+    setShowPopup(false);
+  }
+
+  function togglePopup() {
+    setShowPopup(!showPopup);
   }
 
   useEffect(() => {
@@ -117,11 +141,9 @@ export default function Navbar() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div
             ref={popupRef}
-            className="bg-white rounded-lg shadow-lg p-9 w-96 h-auto"
+            className="bg-white rounded-lg shadow-lg p-6 w-96"
           >
-            <h2 className="text-lg font-bold mb-4">
-              Ingresar o Iniciar Sesión
-            </h2>
+            <h2 className="text-2xl font-bold mb-4">Iniciar Sesión</h2>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -132,10 +154,24 @@ export default function Navbar() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
+                      <FormLabel>Correo Electrónico</FormLabel>
+                      <FormControl>
+                        <Input placeholder="tu@email.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Contraseña</FormLabel>
                       <FormControl>
                         <Input
-                          className="h-14"
-                          placeholder="Introduce tu correo"
+                          type="password"
+                          placeholder="********"
                           {...field}
                         />
                       </FormControl>
@@ -143,21 +179,42 @@ export default function Navbar() {
                     </FormItem>
                   )}
                 />
-                <Button
-                  variant="outline"
-                  className="mr-3"
-                  onClick={togglePopup}
-                >
-                  Cancelar
-                </Button>
-                <Button type="submit">Aceptar</Button>
+                <FormField
+                  control={form.control}
+                  name="role"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Tipo de Usuario</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecciona tu rol" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="cliente">Cliente</SelectItem>
+                          <SelectItem value="empleado">Empleado</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex justify-between">
+                  <Button type="button" variant="outline" onClick={togglePopup}>
+                    Cancelar
+                  </Button>
+                  <Button type="submit">Iniciar Sesión</Button>
+                </div>
               </form>
             </Form>
-            <p className="mt-4">
-              ¿Eres un empleado?{" "}
-              <a href="#" className="underline hover:no-underline">
-                Click aquí
-              </a>
+            <p className="mt-4 text-sm text-gray-600">
+              Los clientes pueden ver vehículos y hacer consultas. Los empleados
+              tienen acceso al panel de control para gestión de inventario,
+              facturación y reportes.
             </p>
           </div>
         </div>
