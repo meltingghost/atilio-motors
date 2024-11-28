@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Facebook, Instagram, Youtube, Twitter } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -44,6 +45,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/empleo" className="hover:text-gray-300">
+                  Trabaje con nosotros
+                </Link>
+              </li>
+              <li>
                 <Link
                   href="/politica-privacidad"
                   className="hover:text-gray-300"
@@ -66,6 +72,44 @@ export default function Footer() {
             <p>Dirección: Calle Principal #123, Ciudad</p>
             <p>Teléfono: (123) 456-7890</p>
             <p>Email: info@concesionario.com</p>
+            <div className="mt-4 flex space-x-4">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-blue-400"
+              >
+                <Facebook className="w-6 h-6" />
+                <span className="sr-only">Facebook</span>
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-pink-400"
+              >
+                <Instagram className="w-6 h-6" />
+                <span className="sr-only">Instagram</span>
+              </a>
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-red-500"
+              >
+                <Youtube className="w-6 h-6" />
+                <span className="sr-only">YouTube</span>
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white hover:text-blue-300"
+              >
+                <Twitter className="w-6 h-6" />
+                <span className="sr-only">Twitter</span>
+              </a>
+            </div>
           </div>
         </div>
         <div className="mt-8 text-center">
